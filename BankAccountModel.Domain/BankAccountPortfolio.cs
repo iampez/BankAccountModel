@@ -8,7 +8,7 @@ namespace BankAccountModel.Domain
     {
         private readonly ISet<BankAccountSplit> _bankAccountSplits = new HashSet<BankAccountSplit>();
 
-        public virtual Guid Id { get; set; }
+        public virtual Guid Id { get; protected set; }
 
         public virtual IEnumerable<BankAccountSplit> BankAccountSplits => _bankAccountSplits.AsEnumerable();
 
@@ -51,7 +51,7 @@ namespace BankAccountModel.Domain
 
             _bankAccountSplits.ToList().ForEach(x =>
             {
-                x.PercentageSplit = bankAccountSplits.Single(y => y.BankAccountId == x.BankAccount.Id).Split;
+                x.ChangeSplit(bankAccountSplits.Single(y => y.BankAccountId == x.BankAccount.Id).Split);
             });
         }
     }

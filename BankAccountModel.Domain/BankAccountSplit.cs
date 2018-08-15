@@ -16,12 +16,17 @@ namespace BankAccountModel.Domain
             BankAccount = new BankAccount(this, accountNumber);
         }
 
-        public virtual Guid Id { get; set; }
+        public virtual Guid Id { get; protected set; }
 
         public virtual BankAccountPortfolio BankAccountPortfolio { get; protected set; }
 
         public virtual BankAccount BankAccount { get; protected set; }
 
-        public virtual int PercentageSplit { get; set; }
+        public virtual int PercentageSplit { get; protected set; }
+
+        protected internal virtual void ChangeSplit(int percentageSplit)
+        {
+            PercentageSplit = percentageSplit;
+        }
     }
 }
