@@ -7,7 +7,7 @@ namespace BankAccountModel.Persistence
     {
         public BankAccountSplitMap()
         {
-            Id(x => x.Id).GeneratedBy.GuidComb();
+            Id(x => x.Id).GeneratedBy.Assigned();
 
             HasOne(x => x.BankAccount)
                 .PropertyRef(x => x.BankAccountSplit)

@@ -10,6 +10,7 @@ namespace BankAccountModel.Domain
 
         internal BankAccount(BankAccountSplit bankAccountSplit, string accountNumber)
         {
+            Id = Guid.NewGuid();
             BankAccountSplit = bankAccountSplit;
             AccountNumber = accountNumber;
         }

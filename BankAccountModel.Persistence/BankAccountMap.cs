@@ -7,7 +7,7 @@ namespace BankAccountModel.Persistence
     {
         public BankAccountMap()
         {
-            Id(x => x.Id).GeneratedBy.GuidComb();
+            Id(x => x.Id).GeneratedBy.Assigned();
 
             Map(x => x.AccountNumber);
 

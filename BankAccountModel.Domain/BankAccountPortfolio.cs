@@ -16,13 +16,15 @@ namespace BankAccountModel.Domain
 
         public virtual BankAccount AddBankAccount(string accountNumber)
         {
-            BankAccountSplit bankAccountSplit = new BankAccountSplit(this, accountNumber);
+            int percentageSplit = _bankAccountSplits.Any() ? 0: 100;
+
+            BankAccountSplit bankAccountSplit = new BankAccountSplit(this, accountNumber, percentageSplit);
             _bankAccountSplits.Add(bankAccountSplit);
             if (PrimaryBankAccountSplit == null)
             {
                 PrimaryBankAccountSplit = bankAccountSplit;
             }
-            
+
             return bankAccountSplit.BankAccount;
         }
 
@@ -33,6 +35,24 @@ namespace BankAccountModel.Domain
             {
                 PrimaryBankAccountSplit = bankAccountSplit;
             }
+        }
+
+        public virtual void ChangeBankAccountSplits(IEnumerable<BankAccountSplitDDto> bankAccountSplits)
+        {
+            if (bankAccountSplits.Sum(x => x.Split) != 100)
+            {
+                throw new ArgumentException();
+            }
+
+            if (!_bankAccountSplits.Select(x => x.BankAccount.Id).SequenceEqual(bankAccountSplits.Select(y => y.BankAccountId)))
+            {
+                throw new ArgumentException();   
+            }
+
+            _bankAccountSplits.ToList().ForEach(x =>
+            {
+                x.PercentageSplit = bankAccountSplits.Single(y => y.BankAccountId == x.BankAccount.Id).Split;
+            });
         }
     }
 }
